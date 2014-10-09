@@ -1,0 +1,81 @@
+
+1. Physical Chemical Properties 1.1. Melting point
+1. Physical Chemical Properties 1.2. Boiling point
+1. Physical Chemical Properties 1.3. Water solubility
+1. Physical Chemical Properties 1.4. Vapour pressure
+1. Physical Chemical Properties 1.5. Surface tension
+1. Physical Chemical Properties 1.6. Octanol-water partition coefficient (Kow)
+1. Physical Chemical Properties 1.7. Octanol-water distribution coefficient (D)
+1. Physical Chemical Properties 1.8. Octanol-air partition coefficient (Koa)
+1. Physical Chemical Properties 1.9. Air-water partition coefficient (Henry's law constant, H)
+1. Physical Chemical Properties 1.10. Dissociation constant (pKa)
+1. Physical Chemical Properties 1.11 Adsorption/Desorption
+1. Physical Chemical Properties 1.12. Complex Formation Ability in Water
+1. Physical Chemical Properties 1.13. Density
+1. Physical Chemical Properties 1.14. Particle Size Distribution
+1. Physical Chemical Properties 1.15. Hydrolysis
+1. Physical Chemical Properties 1.16. Stability
+1. Physical Chemical Properties 1.17. Viscosity
+1. Physical Chemical Properties 1.18. Fat Solubility
+1. Physical Chemical Properties 1.19. Flash point
+1. Physical Chemical Properties 1.20. Flammability
+1. Physical Chemical Properties 1.21. Explosive Properties
+1. Physical Chemical Properties 1.22. Auto-Ignition
+1. Physical Chemical Properties 1.23. Oxidizing Properties
+1. Physical Chemical Properties 1.24. Average Molecular Weight of Polymers
+1. Physical Chemical Properties 1.25. Solution/Extraction Behaviour of Polymers in Water
+1. Physical Chemical Properties 1.26. Length Weighted Geometric Mean Diameter of Fibres
+2. Environmental fate parameters 2.1. Persistence: Abiotic degradation in water
+2. Environmental fate parameters 2.2. Persistence: Abiotic degradation in air
+2. Environmental fate parameters 2.3. Persistence: Biodegradation
+2. Environmental fate parameters 2.4. Bioconcentration
+2. Environmental fate parameters 2.5. Bioaccumulation
+2. Environmental fate parameters 2.6. Partition coefficient. Organic carbon-sorption partition coefficient.
+2. Environmental fate parameters 2.7. Adsorption/Desorption in soil
+2. Environmental fate parameters 2.8. Adsorption/Desorption in sediment
+2. Environmental fate parameters 2.9. Vegetation-water partition coefficient
+2. Environmental fate parameters 2.10. Vegetation-air partition coefficient
+2. Environmental fate parameters 2.11. Vegetation-soil partition coefficient
+3. Ecotoxic effects 3.1. Short-term toxicity to Daphnia
+3. Ecotoxic effects 3.2. Short-term toxicity to algae
+3. Ecotoxic effects 3.3. Acute toxicity to fish
+3. Ecotoxic effects 3.4. Long-term toxicity to Daphnia
+3. Ecotoxic effects 3.5. Long-term toxicity to fish
+3. Ecotoxic effects 3.6. Microbial inhibition
+3. Ecotoxic effects 3.7. Toxicity to soil microorganisms
+3. Ecotoxic effects 3.8. Toxicity to earthworms
+3. Ecotoxic effects 3.9. Toxicity to plants
+3. Ecotoxic effects 3.10. Toxicity to soil invertebrates
+3. Ecotoxic effects 3.11. Toxicity to sediment organisms
+3. Ecotoxic effects 3.12. Toxicity to birds
+3. Ecotoxic effects 3.13. Toxicity to honeybees
+4. Human health effects 4.1. Acute Inhalation toxicity
+4. Human health effects 4.2. Acute Oral toxicity
+4. Human health effects 4.3. Acute Dermal toxicity
+4. Human health effects 4.4. Skin irritation/corrosion
+4. Human health effects 4.5. Acute photoirritation
+4. Human health effects 4.6. Skin sensitisation
+4. Human health effects 4.7. Respiratory sensitisation
+4. Human health effects 4.8. Photosensitisation
+4. Human health effects 4.9. Eye irritation/corrosion
+4. Human health effects 4.10. Mutagenicity
+4. Human health effects 4.11. Photomutagenicity
+4. Human health effects 4.12. Carcinogenicity
+4. Human health effects 4.13. Photocarcinogenicity
+4. Human health effects 4.14. Repeated dose toxicity
+4. Human health effects 4.15. In vitro reproductive toxicity
+4. Human health effects 4.16. In vivo pre-natal-developmental toxicity
+4. Human health effects 4.17. In vivo pre-, peri-, post natal development and / or fertility
+4. Human health effects 4.18. Endocrine Activity
+4. Human health effects 4.19. Neurotoxicity
+5. Toxicokinetics 5.1. Skin penetration
+5. Toxicokinetics 5.2. Ocular membrane penetration
+5. Toxicokinetics 5.3. Gastrointestinal absorption
+5. Toxicokinetics 5.4. Blood-brain barrier penetration
+5. Toxicokinetics 5.5. Placental barrier penetration
+5. Toxicokinetics 5.6. Blood-testis barrier penetration
+5. Toxicokinetics 5.7. Blood-lung barrier penetration
+5. Toxicokinetics 5.8. Metabolism
+5. Toxicokinetics 5.9. Protein-binding
+5. Toxicokinetics 5.10. DNA-binding
+6. Other
