@@ -11,9 +11,10 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.bind.JAXBException;
 import org.dmg.pmml.IOUtil;
+import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.RegressionModel;
-import org.jpmml.manager.RegressionModelManager;
+import org.jpmml.evaluator.RegressionModelEvaluator;
 import org.qsardb.cargo.pmml.PMMLCargo;
 import org.qsardb.conversion.regression.Equation;
 import org.qsardb.conversion.regression.RegressionUtil;
@@ -135,10 +136,11 @@ public class EditMlrModel extends AbstractTableModel {
 			PMMLCargo cargo = model.getContainer().getCargo(PMMLCargo.class);
 			PMML pmml = cargo.loadPmml();
 
-			if (pmml.getContent().get(0) instanceof RegressionModel) {
+			Model pmmlModel = pmml.getModels().get(0);
+			if (pmmlModel instanceof RegressionModel) {
 				Qdb qdb = model.getQdbContext().getQdb();
-				RegressionModelManager manager = new RegressionModelManager(pmml);
-				return RegressionUtil.format(qdb, manager);
+				RegressionModel mlrModel = (RegressionModel)pmmlModel;
+				return RegressionUtil.format(qdb, mlrModel);
 			}
 		} catch (QdbException e) {
 			throw new IOException("Failed to parse PMML", e);
@@ -153,10 +155,10 @@ public class EditMlrModel extends AbstractTableModel {
 		eq.setTerms(data);
 
 		Qdb qdb = model.getQdbContext().getQdb();
-		RegressionModelManager manager = RegressionUtil.parse(qdb, eq);
+		PMML pmml = RegressionUtil.parse(qdb, eq);
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			IOUtil.marshal(manager.getPmml(), os);
+			IOUtil.marshal(pmml, os);
 			return new ByteArrayPayload(os.toByteArray());
 		} catch (JAXBException ex) {
 			throw new RuntimeException("Can't serialize PMML", ex);
