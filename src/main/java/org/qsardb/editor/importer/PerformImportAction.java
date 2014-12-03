@@ -79,7 +79,7 @@ public class PerformImportAction extends AbstractAction {
 			Qdb qdb = qdbContext.getQdb();
 			Table2Qdb.convert(qdb, dataTable, setup);
 		} catch (Exception ex) {
-			String msg = "Error mapping column "+rule.getSourceColumnHeading()+ " to " + rule.getMapTo();
+			String msg = "Error mapping column "+rule.getSourceColumnHeading()+ " to " + rule.getMapTo() + ": " + ex.getMessage();
 			throw new IllegalArgumentException(msg, ex);
 		}
 	}
