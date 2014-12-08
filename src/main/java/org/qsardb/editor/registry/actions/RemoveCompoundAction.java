@@ -4,9 +4,11 @@
 package org.qsardb.editor.registry.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.qsardb.cargo.map.StringFormat;
 import org.qsardb.cargo.map.ValuesCargo;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
@@ -36,9 +38,15 @@ public class RemoveCompoundAction extends RemoveContainerAction<Compound>{
 	private void removeValues(ParameterRegistry registry, Compound compound) throws IOException {
 		for (Object o: registry) {
 			ValuesCargo values = getValuesCargo((Container)o);
+			if (values == null) {
+				continue;
+			}
 			Map<String, String> map = new LinkedHashMap<String, String>(values.loadStringMap());
-			map.remove(compound.getId());
-			values.storeStringMap(map);
+			if (map.remove(compound.getId()) != null) {
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				values.formatMap(map, new StringFormat(), os);
+				values.setPayload(new ByteArrayPayload(os.toByteArray()));
+			}
 		}
 	}
 
