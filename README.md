@@ -5,7 +5,7 @@ QsarDB Editor is a standalone desktop application for authoring QsarDB archives.
 
 Website: http://qsardb.org/
 
-The latest binary version of QsarDB Editor is available for [download](http://qsardb.org/downloads/v1.0-SNAPSHOT/qsardb-editor-1.0-SNAPSHOT.jar)
+The latest binary version of QsarDB Editor is available for [download](http://qsardb.org/downloads/v1.1-SNAPSHOT/qsardb-editor-1.1-SNAPSHOT.jar)
 
 Building instructions
 =====================
@@ -16,7 +16,7 @@ Build QsarDB Editor by running:
 
 `mvn package`
 
-It will produce an executable qsardb-editor-1.0-SNAPSHOT.jar file in the target directory.
+It will produce an executable qsardb-editor-1.1-SNAPSHOT.jar file in the target directory.
 
 Contact
 =======
