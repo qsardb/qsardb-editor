@@ -95,6 +95,16 @@
       <artifactId>validation</artifactId>
       <version>1.1-SNAPSHOT</version>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>org.openscience.cdk</groupId>
+          <artifactId>cdk-qsar</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.openscience.cdk</groupId>
+          <artifactId>cdk-qsarmolecular</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.qsardb.storage</groupId>
@@ -118,6 +128,72 @@
       <artifactId>junit</artifactId>
       <groupId>junit</groupId>
       <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.0.19</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.qsardb</groupId>
+      <artifactId>statistics</artifactId>
+      <version>1.1-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-standard</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-data</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-renderbasic</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-renderawt</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-sdg</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-inchi</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-silent</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.openscience.cdk</groupId>
+      <artifactId>cdk-legacy</artifactId>
+      <version>1.5.10</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>uk.ac.cam.ch.opsin</groupId>
+      <artifactId>opsin-inchi</artifactId>
+      <version>1.6.0</version>
+      <type>jar</type>
     </dependency>
   </dependencies>
 

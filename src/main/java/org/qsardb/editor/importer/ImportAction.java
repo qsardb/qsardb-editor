@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.qsardb.conversion.csv.CsvUtil;
@@ -23,7 +24,7 @@ import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
 
 public class ImportAction extends AbstractAction {
-	private final QdbContext qdbContext;
+	protected final QdbContext qdbContext;
 
 	public ImportAction(QdbContext context) {
 		super("Import data");
@@ -50,19 +51,46 @@ public class ImportAction extends AbstractAction {
 			return new SDFile(source);
 		}
 
-		return tableFromSpreadsheet(source, 0);
+		return tableFromSpreadsheet(source);
 	}
 
-	private static Table tableFromSpreadsheet(File source, int page) throws Exception {
+	private static Table tableFromSpreadsheet(File source) throws Exception {
 		InputStream is = new FileInputStream(source);
 		try {
 			String name = source.getName().toLowerCase();
 			if (name.endsWith(".csv") || name.endsWith(".tsv") || name.endsWith(".txt")) {
-				return new CsvWorkbook(is, CsvUtil.getFormat(source)).getWorksheet(page);
+				int sheetCount = new CsvWorkbook(is).getWorksheetCount();
+				is = new FileInputStream(source);
+				if(sheetCount==1){return new CsvWorkbook(is, CsvUtil.getFormat(source)).getWorksheet(0);}
+				Object[] choices = new Object[sheetCount];
+				for (int i = 0; i < sheetCount; i++) {
+					choices[i] = i + 1;
+				}
+				int answer = (Integer) JOptionPane.showInputDialog(null, "Choose sheet", "Sheet selection", JOptionPane.PLAIN_MESSAGE, null, choices, 0);
+				is = new FileInputStream(source);
+				return new CsvWorkbook(is, CsvUtil.getFormat(source)).getWorksheet(answer-1);
 			} else if (name.endsWith(".xls") || name.endsWith(".xlsx")) {
-				return new ExcelWorkbook(is).getWorksheet(page);
+				int sheetCount = new ExcelWorkbook(is).getWorksheetCount();
+				is = new FileInputStream(source);
+				if(sheetCount==1){return new ExcelWorkbook(is).getWorksheet(0);}
+				Object[] choices = new Object[sheetCount];
+				for (int i = 0; i < sheetCount; i++) {
+					choices[i] = i + 1;
+				}
+				int answer = (Integer) JOptionPane.showInputDialog(null, "Choose sheet", "Sheet selection", JOptionPane.PLAIN_MESSAGE, null, choices, 0);
+				is = new FileInputStream(source);
+				return new ExcelWorkbook(is).getWorksheet(answer-1);
 			} else if (name.endsWith(".ods")) {
-				return new OpenDocumentWorkbook(is).getWorksheet(page);
+				int sheetCount = new OpenDocumentWorkbook(is).getWorksheetCount();
+				is = new FileInputStream(source);
+				if(sheetCount==1){return new OpenDocumentWorkbook(is).getWorksheet(0);}
+				Object[] choices = new Object[sheetCount];
+				for (int i = 0; i < sheetCount; i++) {
+					choices[i] = i + 1;
+				}
+				int answer = (Integer) JOptionPane.showInputDialog(null, "Choose sheet", "Sheet selection", JOptionPane.PLAIN_MESSAGE, null, choices, 0);
+				is = new FileInputStream(source);
+				return new OpenDocumentWorkbook(is).getWorksheet(answer-1);
 			}
 		} finally {
 			is.close();
@@ -79,7 +107,7 @@ public class ImportAction extends AbstractAction {
 			file = inputFile;
 			parent = dialogParent;
 		}
-		
+
 		@Override
 		protected Table doInBackground() throws Exception {
 			return loadTable(file);

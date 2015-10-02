@@ -11,7 +11,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import org.qsardb.model.Container;
 
-class ContainerRenderer extends JLabel implements ListCellRenderer<Container> {
+public class ContainerRenderer extends JLabel implements ListCellRenderer<Container> {
 
 	public ContainerRenderer() {
 		setOpaque(true);

@@ -131,7 +131,7 @@ public class ImportDataView {
 
 	@Subscribe public void autoMapNewContainer(ContainerEvent e) {
 		Object src = e.getSource();
-		if (src == addPropertyAction || src == addDescriptorAction || src == addPredictionAction) {
+		if (src == addPropertyAction || src == addDescriptorAction || src == addPredictionAction || DescriptorImportAction.class.isInstance(src)) {
 			mappingRules.getModel().mapByContainer(e.getContainer());
 		}
 	}

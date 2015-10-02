@@ -19,6 +19,7 @@ public class CargoView {
 	private final JLabel label = new JLabel();
 	private final Action editAction = createEditTextAction();
 	private final Action importAction = createImportAction();
+	private final Action deleteAction = createDeleteAction();
 
 	private final String cargoId;
 	protected ContainerModel model;
@@ -53,6 +54,8 @@ public class CargoView {
 			view.add(Box.createHorizontalStrut(6));
 			view.add(new JButton(action));
 		}
+		view.add(Box.createHorizontalStrut(6));
+		view.add(new JButton(deleteAction));
 		updateView();
 	}
 
@@ -63,6 +66,7 @@ public class CargoView {
 		for (Action action : getAdditionalActions()) {
 			action.setEnabled(isEnabled());
 		}
+		deleteAction.setEnabled(isDeleteEnabled());
 	}
 
 	protected boolean hasCargo() {
@@ -73,8 +77,12 @@ public class CargoView {
 		return model != null && !model.isEmpty();
 	}
 
+	protected boolean isDeleteEnabled() {
+		return model != null && !model.isEmpty() && hasCargo();
+	}
+
 	protected Action[] getAdditionalActions() {
-		return new Action[] {};
+		return new Action[]{};
 	}
 
 	protected Action createEditTextAction() {
@@ -82,7 +90,26 @@ public class CargoView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String title = String.format("Edit %s cargo", label.getText());
-				new EditTextView(model, cargoId).showModal(title);
+				if (label.getText().equalsIgnoreCase("Values")) {
+					new EditValuesView(model, cargoId).showModal(title);
+				} else {
+					new EditTextView(model, cargoId).showModal(title);
+				}
+				updateView();
+			}
+		};
+	}
+
+	protected Action createDeleteAction() {
+		return new AbstractAction("Delete") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int k = JOptionPane.showConfirmDialog(view, "Confirm delete", "Confirm delete", JOptionPane.OK_CANCEL_OPTION);
+				if (k != JOptionPane.OK_OPTION) {
+					return;
+				}
+				model.setCargoPayload(cargoId, null);
+				model.getContainer().removeCargo(cargoId);
 				updateView();
 			}
 		};

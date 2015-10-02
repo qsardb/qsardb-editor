@@ -19,7 +19,7 @@ import org.qsardb.model.Payload;
 import org.qsardb.model.QdbException;
 
 public abstract class EditCargoView {
-	private JDialog frame;
+	protected JDialog frame;
 
 	protected final ContainerModel model;
 	protected final String cargoId;
@@ -64,6 +64,7 @@ public abstract class EditCargoView {
 		frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		frame.getContentPane().add(contentPane, BorderLayout.CENTER);
 		frame.setSize(600, 400); // XXX
+		Utils.configureWindowIcon(frame);
 		frame.setVisible(true);
 	}
 }

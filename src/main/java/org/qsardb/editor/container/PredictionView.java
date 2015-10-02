@@ -27,6 +27,7 @@ public class PredictionView extends ParameterView<Prediction> {
 				for (Model m: getModel().getQdbContext().getQdb().getModelRegistry()) {
 					result.add(m.getId());
 				}
+				result.add("new");
 				return result;
 			}
 		});

@@ -28,6 +28,11 @@ public class ExportAction extends AbstractAction {
 		if (fc.showDialog(parent, "Export") == JFileChooser.APPROVE_OPTION) {
 			File f = fc.getSelectedFile();
 			try {
+				String file_name = f.toString();
+				if (!file_name.endsWith(".zip")) {
+					file_name += ".zip";
+					f = new File(file_name);
+				}
 				ZipFileOutput storage = new ZipFileOutput(f);
 				qdbContext.getQdb().copyTo(storage);
 				storage.close();

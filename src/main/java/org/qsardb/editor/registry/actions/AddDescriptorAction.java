@@ -4,9 +4,16 @@
 
 package org.qsardb.editor.registry.actions;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import org.qsardb.editor.common.QdbContext;
+import org.qsardb.editor.container.ContainerView;
+import org.qsardb.editor.container.DescriptorView;
 import org.qsardb.editor.container.Make;
 import org.qsardb.editor.events.DescriptorEvent;
+import org.qsardb.editor.importer.DescriptorImportAction;
 import org.qsardb.model.Descriptor;
 
 public class AddDescriptorAction extends AddContainerAction<Descriptor> {
@@ -17,7 +24,29 @@ public class AddDescriptorAction extends AddContainerAction<Descriptor> {
 
 	@Override
 	protected void makeContainer(String idHint) {
-		container = Make.descriptor(qdbContext, idHint);
+		DescriptorView view = new DescriptorView(new QdbContext(qdbContext), idHint);
+		Make make = new Make<Descriptor>(view) {
+
+			@Override
+			protected JPanel buildContentPane(ContainerView<Descriptor> view) {
+				JPanel p = super.buildContentPane(view);
+				JButton descIButton = new JButton(new DescriptorImportAction(qdbContext) {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						super.actionPerformed(e);
+						if (isFileopened()) {
+							getDialog().dispose();
+						}
+					}
+				});
+				descIButton.setToolTipText("Spreadsheet must contain the following columns (with header): DescriptorID, Name, Description, Application");
+				((JPanel) p.getComponent(1)).add(descIButton, FlowLayout.LEFT);
+
+				return p;
+			}
+		};
+		container = (Descriptor) make.showDialog("descriptor");
 		event = new DescriptorEvent(this, DescriptorEvent.Type.Add, container);
 	}
 	

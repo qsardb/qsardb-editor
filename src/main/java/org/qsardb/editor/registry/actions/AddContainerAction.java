@@ -29,6 +29,10 @@ public abstract class AddContainerAction<C extends Container> extends AbstractAc
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		idHint = idHint.replace(" ", "");
+		idHint = idHint.replace("/", "");
+		idHint = idHint.replace("\\", "");
+		idHint = idHint.replace(":", "");
 		makeContainer(idHint);
 		if (container != null && event != null) {
 			try {

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 University of Tartu
+ */
+
 package org.qsardb.editor.importer;
 
 import java.awt.BorderLayout;
@@ -16,6 +20,9 @@ import javax.swing.table.TableColumn;
 import org.qsardb.conversion.sdfile.SDFile;
 import org.qsardb.conversion.table.Table;
 import org.qsardb.editor.common.QdbContext;
+import org.qsardb.model.Descriptor;
+import org.qsardb.model.Prediction;
+import org.qsardb.model.Property;
 
 public class MappingRulesView {
 	private final JTable table;
@@ -40,6 +47,16 @@ public class MappingRulesView {
 		table.getColumnModel().getColumn(0).setWidth(80);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		editColumn.setMaxWidth(comp.getPreferredSize().width + 4);
+
+		for (Descriptor dscr : qdbContext.getQdb().getDescriptorRegistry()) {
+			model.mapByContainer(dscr);
+		}
+		for (Property prop : qdbContext.getQdb().getPropertyRegistry()) {
+			model.mapByContainer(prop);
+		}
+		for (Prediction pred : qdbContext.getQdb().getPredictionRegistry()) {
+			model.mapByContainer(pred);
+		}
 	}
 
 	public JPanel buildView() {

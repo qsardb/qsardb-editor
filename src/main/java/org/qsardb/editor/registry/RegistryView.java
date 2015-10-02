@@ -27,7 +27,7 @@ public abstract class RegistryView<C extends Container> {
 	public RegistryView(RegistryModel registryModel) {
 		this.model = registryModel;
 		this.list.setModel(registryModel.getListModel());
-		this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 	}
 
 	public RegistryModel getModel() {
@@ -43,7 +43,7 @@ public abstract class RegistryView<C extends Container> {
 			newAction.setIdHint(id);
 		}
 
-		removeAction.setTarget(getSelectedContainer());
+		removeAction.setTarget(getSelectedContainers());
 	}
 
 	public void clearSelection() {
@@ -86,7 +86,7 @@ public abstract class RegistryView<C extends Container> {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
-					removeAction.setTarget(getSelectedContainer());
+					removeAction.setTarget(getSelectedContainers());
 				}
 			}
 		});

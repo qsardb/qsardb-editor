@@ -6,8 +6,11 @@ package org.qsardb.editor.container;
 
 import com.google.common.base.Strings;
 import org.qsardb.editor.common.QdbContext;
+import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.container.attribute.Attribute;
 import org.qsardb.editor.container.attribute.AttributeValue;
+import org.qsardb.editor.events.ContainerEvent;
+import org.qsardb.editor.events.ModelEvent;
 import org.qsardb.editor.events.PredictionEvent;
 import org.qsardb.model.Model;
 import org.qsardb.model.Prediction;
@@ -35,6 +38,10 @@ public class PredictionModel extends ContainerModel<Prediction>{
 		getQdbContext().fire(new PredictionEvent(this, PredictionEvent.Type.Update, getContainer()));
 	}
 
+	public void deleteEvent() {
+		getQdbContext().fire(new PredictionEvent(this, PredictionEvent.Type.Update, getContainer()));
+	}
+
 	private class ApplicationAttributeValue extends AttributeValue<String> {
 		@Override
 		public void set(String value) {
@@ -51,6 +58,24 @@ public class PredictionModel extends ContainerModel<Prediction>{
 	private class ModelIdAttributeValue extends AttributeValue<String> {
 		@Override
 		public void set(String value) {
+			if ("new".equals(value)) {
+				Model newModel = Make.model(getQdbContext(), "id");
+				if (newModel != null) {
+					try {
+						getQdbContext().getQdb().getModelRegistry().add(newModel);
+						ContainerEvent event = new ModelEvent(this, ModelEvent.Type.Add, newModel);
+						getQdbContext().fire(event);
+						set(newModel.getId());
+					} catch (IllegalArgumentException ex) {
+						Utils.showError(ex.getMessage());
+						set(get());
+					}
+					return;
+				} else {
+					set(get());
+					return;
+				}
+			}
 			Model qsarModel = getQdbContext().getQdb().getModel(value);
 			if (qsarModel == null) {
 				throw new IllegalStateException("Model is null");

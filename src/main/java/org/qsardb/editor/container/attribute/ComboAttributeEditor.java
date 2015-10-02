@@ -53,7 +53,7 @@ public abstract class ComboAttributeEditor extends AttributeEditor<AttributeValu
 		}
 	}
 
-	private void updateModel() {
+	protected void updateModel() {
 		String fromView = getValue();
 		if (!fromView.equals(value().get())) {
 			value().set(fromView);

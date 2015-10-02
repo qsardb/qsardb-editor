@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import org.qsardb.editor.common.ManagedJPanel;
 import org.qsardb.editor.common.QdbContext;
+import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.events.ContainerEvent;
 import org.qsardb.model.*;
 
@@ -52,9 +53,10 @@ public class Make<C extends Container> {
 		this.view = view;
 	}
 
-	private C showDialog(String title) {
+	public C showDialog(String title) {
 		dialog.setContentPane(buildContentPane(view));
 		dialog.setTitle("Create a new "+title);
+		Utils.configureWindowIcon(dialog);
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setModal(true);
 		dialog.setLocationByPlatform(true);
@@ -63,8 +65,10 @@ public class Make<C extends Container> {
 
 		return okPressed ? view.getContainer() : null;
 	}
-
-	private JPanel buildContentPane(final ContainerView<C> view) {
+	public JDialog getDialog() {
+		return dialog;
+	}
+	protected JPanel buildContentPane(final ContainerView<C> view) {
 		ManagedJPanel contentPane = new ManagedJPanel(view.qdbContext, this);
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(view.buildView(), BorderLayout.CENTER);

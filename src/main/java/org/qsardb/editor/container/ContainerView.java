@@ -6,7 +6,9 @@ package org.qsardb.editor.container;
 
 import com.google.common.eventbus.Subscribe;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
 import org.qsardb.editor.common.ManagedJPanel;
@@ -25,6 +27,7 @@ public abstract class ContainerView<C extends Container> {
 
 	protected final ArrayList<AttributeEditor> attrEditors;
 	protected final ArrayList<CargoView> cargoViews;
+	JPanel panel;
 
 	protected final QdbContext qdbContext;
 	private ContainerModel<C> model;
@@ -96,10 +99,13 @@ public abstract class ContainerView<C extends Container> {
 	}
 
 	private JPanel buildContent() {
-		JPanel panel = new JPanel();
-
-		GroupLayout layout = new GroupLayout(panel);
-		panel.setLayout(layout);
+		 panel = new JPanel();
+		 panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		 JPanel jp = new JPanel();
+		panel.add(jp, Component.LEFT_ALIGNMENT);
+				
+		GroupLayout layout = new GroupLayout(jp);
+		jp.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setAutoCreateGaps(true);
 		GroupLayout.SequentialGroup hgroup = layout.createSequentialGroup();

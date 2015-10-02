@@ -139,8 +139,7 @@ public class EditMlrModel extends AbstractTableModel {
 			Model pmmlModel = pmml.getModels().get(0);
 			if (pmmlModel instanceof RegressionModel) {
 				Qdb qdb = model.getQdbContext().getQdb();
-				RegressionModel mlrModel = (RegressionModel)pmmlModel;
-				return RegressionUtil.format(qdb, mlrModel);
+				return RegressionUtil.format(qdb, pmml);
 			}
 		} catch (QdbException e) {
 			throw new IOException("Failed to parse PMML", e);

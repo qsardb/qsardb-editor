@@ -15,6 +15,7 @@ import org.qsardb.model.Qdb;
 import org.qsardb.model.QdbException;
 import org.qsardb.model.Storage;
 import org.qsardb.storage.directory.DirectoryStorage;
+import org.qsardb.storage.zipfile.ZipFileOutput;
 
 public class QdbContext {
 
@@ -68,6 +69,20 @@ public class QdbContext {
 		}
 	}
 
+	public void storeChangesZip(File f) throws IOException {
+		try {
+			ZipFileOutput storage;
+			storage = new ZipFileOutput(f);
+			getQdb().copyTo(storage);
+			storage.close();
+
+		} catch (QdbException e) {
+			throw new IOException(e);
+		}
+
+		savingNeeded = false;
+	}
+
 	public void loadArchive(File dir) throws IOException {
 		if (!dir.exists() && !dir.mkdirs()) {
 			throw new IOException("Unable to create: "+dir);
@@ -81,6 +96,11 @@ public class QdbContext {
 		} catch (QdbException e) {
 			throw new IOException(e);
 		}
+	}
+
+	public void loadQdb(Qdb qdb, String path) {
+		this.qdb = qdb;
+		this.path = path;
 	}
 
 	private static class Handler implements SubscriberExceptionHandler {

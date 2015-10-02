@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 University of Tartu
+ */
+
 package org.qsardb.editor.importer;
 
 import java.util.ArrayList;
@@ -95,6 +99,8 @@ public class MappingRulesModel extends AbstractTableModel {
 	}
 
 	public void mapByContainer(Container c) {
+		if (c == null) return;
+
 		for (int i=0; i<mappings.size(); i++) {
 			MappingRule m = mappings.get(i);
 			boolean headingMatches = c.getId().equals(m.getSourceColumnHeading());

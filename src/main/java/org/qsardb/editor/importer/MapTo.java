@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 University of Tartu
+ */
+
 package org.qsardb.editor.importer;
 
 import org.qsardb.editor.registry.Select;
@@ -18,6 +22,11 @@ public enum MapTo {
 	IGNORE("Ignore", false){
 		@Override public Mapping createMapping(Container arg) {
 			return null;
+		}
+	},
+	DESCRIPTION("Compound Description", false){
+		@Override public Mapping createMapping(Container arg) {
+			return new CompoundDescriptionMapping();
 		}
 	},
 	COMPOUND_ID("Compound ID", true) {

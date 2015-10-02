@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) 2015 University of Tartu
+ */
+
 package org.qsardb.editor.validator;
 
 import java.util.*;
+import javax.swing.SwingWorker;
 
 import org.qsardb.cargo.pmml.*;
 import org.qsardb.cargo.rds.*;
@@ -8,23 +13,29 @@ import org.qsardb.model.*;
 import org.qsardb.validation.*;
 
 public enum ValidationLevel {
-	BASIC, INTERMEDIATE, ADVANCED;
+	BASIC, INTERMEDIATE, ADVANCED, STRUCTURE;
 
-	public void validate(Qdb qdb, MessageCollector collector){
-		List<Validator<?>> validators = prepareValidators();
-
+	public void validate(Qdb qdb, MessageCollector collector, String[] values, SwingWorker sw) {
+		List<Validator<?>> validators = prepareValidators(values, sw);
+		ValidateArchiveView.pbar.setValue(0);
+		float n = validators.size();
+		float i = 0;
 		for(Validator<?> validator : validators){
+			if (sw.isCancelled()) {
+				return;
+			}
 			validator.setCollector(collector);
-
+			i++;
 			try {
 				validator.run(qdb);
 			} finally {
 				validator.setCollector(null);
 			}
+			ValidateArchiveView.pbar.setValue((int) ((int) i / n * 100));
 		}
 	}
 
-	private List<Validator<?>> prepareValidators(){
+	private List<Validator<?>> prepareValidators(String[] values, SwingWorker sw) {
 		List<Validator<?>> result = new ArrayList<Validator<?>>();
 
 		if(BASIC.compareTo(this) <= 0){
@@ -71,6 +82,11 @@ public enum ValidationLevel {
 
 		if(ADVANCED.compareTo(this) <= 0){
 			result.add(new PredictionReproducibilityValidator());
+		}
+
+		if (STRUCTURE.compareTo(this) <= 0) {
+			result = new ArrayList<Validator<?>>();
+			result.add(new StructureValidator(Scope.GLOBAL, values, sw));
 		}
 
 		return result;
