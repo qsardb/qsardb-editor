@@ -11,13 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -103,24 +97,7 @@ public class ChartGenerator {
 				XYDataItemx aks = (XYDataItemx) dataset.getSeries(i).getDataItem(i1);
 				String temp = (String) aks.getId();
 				Compound comp = c.getQdb().getCompound(temp);
-				paint(comp.getInChI(), comp.getId());
-
-				String file = System.getProperty("user.dir").concat("//resources");
-				File f = new File(file, comp.getId().concat(".png"));
-				String compName = comp.getName();
-
-				String namehtml = "<p> Compound Name: ";
-
-				if (compName.length() > 31) {
-					namehtml = namehtml + compName.substring(0, 31) + "</p>";
-				} else {
-					namehtml = namehtml + compName + "</p>";
-				}
-				return "<html>" + "<img src=\"file:" + f.toString() + "\"><br>"
-					+ "[InChI]<br>"
-					+ "(" + a + " " + b + ")<br>"
-					+ "Compound ID: " + aks.getId() + "<br>"
-					+ namehtml + "</html>";
+				return comp.getId();
 			}
 		});
 
@@ -128,35 +105,10 @@ public class ChartGenerator {
 		plotCh1.getDomainAxis().setLabelFont(font3);
 		plotCh1.getRangeAxis().setLabelFont(font3);
 
-		JPanel panel = new ChartPanel(chart);
+		ScatterChartPanel panel = new ScatterChartPanel(chart, c);
 		panel.setPreferredSize(new java.awt.Dimension(200, 300));
-		((ChartPanel) panel).setInitialDelay(0);
+		panel.setInitialDelay(50);
 		return panel;
-	}
-
-	public void paint(String inchi, String name) {
-		String folder = System.getProperty("user.dir").concat("//resources");
-		name = name.concat(".png");
-
-		CompoundVisualizer cv = new CompoundVisualizer();
-		if (inchi != null) {
-			BufferedImage lab = (BufferedImage) cv.drawInchiMolecule(inchi);
-
-			File f2 = new File(folder);
-			f2.mkdir();
-
-			File f = new File(folder, name);
-			if (f.exists()) {
-				return;
-			}
-			if (lab != null) {
-				try {
-					ImageIO.write(lab, "png", f);
-				} catch (IOException ex) {
-					Logger.getLogger(ChartGenerator.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			}
-		}
 	}
 
 	public JPanel getHistogram(DataSeries series, String x, String y) {

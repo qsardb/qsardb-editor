@@ -16,8 +16,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,7 +24,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.apache.commons.io.FileUtils;
 import org.qsardb.editor.common.ManagedJPanel;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
@@ -203,21 +200,6 @@ public class QdbEditor implements Runnable {
 			System.exit(1);
 		}
 
-		Thread t = new Thread() {
-
-			@Override
-			public void run() {
-				File f = new File(System.getProperty("user.dir").concat("//resources"));
-				if (f.exists()) {
-					try {
-						FileUtils.deleteDirectory(f);
-					} catch (IOException ex) {
-						Logger.getLogger(QuitAction.class.getName()).log(Level.SEVERE, null, ex);
-					}
-				}
-			}
-		};
-		Runtime.getRuntime().addShutdownHook(t);
 		SwingUtilities.invokeLater(app);
 	}
 }
