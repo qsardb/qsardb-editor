@@ -204,8 +204,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
 
@@ -235,8 +235,8 @@
 
   <repositories>
     <repository>
-      <id>ambit.uni-plovdiv.bg</id>
-      <url>http://ambit.uni-plovdiv.bg:8083/nexus/content/repositories/thirdparty</url>
+      <id>nexus.ideaconsult.net</id>
+	  <url>https://nexus.ideaconsult.net/content/repositories/thirdparty/</url>
     </repository>
   </repositories>
 </project>
