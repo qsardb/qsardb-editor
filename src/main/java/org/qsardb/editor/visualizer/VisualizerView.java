@@ -425,7 +425,7 @@ public class VisualizerView {
 			gbc.gridx = 2 + cSize;
 			panel.add(label("Total"), gbc);
 			gbc.gridx = 3 + cSize;
-			panel.add(label("Sensetivity"), gbc);
+			panel.add(label("Sensitivity"), gbc);
 			gbc.gridx = 4 + cSize;
 			panel.add(label("Specificity"), gbc);
 			//
