@@ -28,7 +28,7 @@ import org.qsardb.editor.common.ManagedJPanel;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.events.QdbEvent;
-import org.qsardb.editor.importer.ImportAction;
+import org.qsardb.editor.importer.DataImportAction;
 import org.qsardb.editor.registry.Edit;
 import org.qsardb.editor.validator.ValidateArchiveView;
 import org.qsardb.editor.visualizer.VisualizerTab;
@@ -47,14 +47,14 @@ public class QdbEditor implements Runnable {
 
 	private final JFrame frame = new JFrame("QsarDB");
 	private final JTabbedPane tabs = new JTabbedPane();
-	private final ImportAction importAction;
+	private final DataImportAction importAction;
 	private final SaveAction saveAction;
 	private final SaveAsAction saveAsAction;
 	private final ExportAction exportAction;
 
 	private QdbEditor(QdbContext context) {
 		qdbContext = context;
-		importAction = new ImportAction(context);
+		importAction = new DataImportAction(context);
 		saveAction = new SaveAction(context);
 		saveAsAction = new SaveAsAction(context);
 		exportAction = new ExportAction(context);

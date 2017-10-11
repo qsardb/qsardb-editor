@@ -4,10 +4,12 @@
 
 package org.qsardb.editor.registry.actions;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import org.qsardb.conversion.table.Table;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.container.ContainerView;
 import org.qsardb.editor.container.DescriptorView;
@@ -26,18 +28,14 @@ public class AddDescriptorAction extends AddContainerAction<Descriptor> {
 	protected void makeContainer(String idHint) {
 		DescriptorView view = new DescriptorView(new QdbContext(qdbContext), idHint);
 		Make make = new Make<Descriptor>(view) {
-
 			@Override
 			protected JPanel buildContentPane(ContainerView<Descriptor> view) {
 				JPanel p = super.buildContentPane(view);
 				JButton descIButton = new JButton(new DescriptorImportAction(qdbContext) {
-
 					@Override
-					public void actionPerformed(ActionEvent e) {
-						super.actionPerformed(e);
-						if (isFileopened()) {
-							getDialog().dispose();
-						}
+					protected void performImport(Table table, Component parent) {
+						super.performImport(table, parent);
+						getDialog().dispose();
 					}
 				});
 				descIButton.setToolTipText("Spreadsheet must contain the following columns (with header): DescriptorID, Name, Description, Application");
