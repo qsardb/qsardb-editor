@@ -13,6 +13,7 @@ import org.qsardb.editor.container.attribute.TextAttributeEditor;
 import org.qsardb.editor.container.cargo.CargoInfo;
 import org.qsardb.editor.container.cargo.CargoView;
 import org.qsardb.editor.events.CompoundEvent;
+import org.qsardb.editor.events.ContainerEvent;
 import org.qsardb.editor.visualizer.CompoundVisualizer;
 import org.qsardb.model.Compound;
 
@@ -36,6 +37,16 @@ public class CompoundView extends ContainerView<Compound> {
 		setModel(new CompoundModel(qdbContext, container));
 		paintMolecule(container);
 	}
+
+	@Override
+	protected void updateView(ContainerEvent e) {
+		super.updateView(e);
+		if (getContainer().equals(e.getContainer())) {
+			if (e.getType() == ContainerEvent.Type.Update) {
+				paintMolecule((Compound) e.getContainer());
+			}
+		}
+	}
 	
 	private void paintMolecule(Compound container){
 		if (panel.getComponentCount() > 1) {
@@ -52,7 +63,6 @@ public class CompoundView extends ContainerView<Compound> {
 	}
 
 	@Subscribe public void handle(CompoundEvent e) {
-		paintMolecule(e.getContainer());
 		updateView(e);
 	}
 }

@@ -12,7 +12,7 @@ import org.qsardb.model.Container;
 
 abstract public class RemoveContainerAction<C extends Container> extends AbstractAction {
 	private final QdbContext qdbContext;
-        private List<C> targetContainers;
+	private List<C> targetContainers;
 
 	public RemoveContainerAction(QdbContext context) {
 		super("Remove");
@@ -22,23 +22,18 @@ abstract public class RemoveContainerAction<C extends Container> extends Abstrac
 
 	public void setTarget(List<C> container) {
 		targetContainers = container;
-		setEnabled(container != null);
+		setEnabled(container != null && !container.isEmpty());
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-            List<C> Temp =targetContainers;
-            int max = Temp.size();
-                for (int i = 0; i < max; i++) {
-                    if(Temp.get(i) != null){
-                        ContainerEvent event = remove(e, Temp.get(i));
-                        if (event != null) {
-                            qdbContext.fire(event);
-                            setTarget(null);
-                        }
-                    }
-            }
-            
+		for (C container: targetContainers) {
+			ContainerEvent event = remove(e, container);
+			if (event != null) {
+				qdbContext.fire(event);
+				setTarget(null);
+			}
+		}
 	}
 
 	abstract protected ContainerEvent remove(ActionEvent e, C targetContainer);
