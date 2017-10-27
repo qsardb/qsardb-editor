@@ -172,6 +172,8 @@ public class CompoundVisualizer {
 	}
 
 	public Image drawInchiMolecule(String Inchi) {
+		if (Inchi == null) return null;
+
 		InChIGeneratorFactory inchiFactory = null;
 		InChIToStructure inchi2structure = null;
 		try {

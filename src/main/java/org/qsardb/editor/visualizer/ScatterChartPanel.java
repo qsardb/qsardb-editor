@@ -63,9 +63,13 @@ public class ScatterChartPanel extends ChartPanel {
 		public void setTipText(String cid) {
 			Compound comp = ctx.getQdb().getCompound(cid);
 			
-			CompoundVisualizer cv = new CompoundVisualizer();
-			Image image = cv.drawInchiMolecule(comp.getInChI());
-			imageHolder.setIcon(new ImageIcon(image));
+			ImageIcon icon = null;
+			if (comp.getInChI() != null) {
+				CompoundVisualizer cv = new CompoundVisualizer();
+				Image image = cv.drawInchiMolecule(comp.getInChI());
+				icon = new ImageIcon(image);
+			}
+			imageHolder.setIcon(icon);
 			
 			idLabel.setText("Id: "+comp.getId());
 			nameLabel.setText("Name: "+comp.getName());
