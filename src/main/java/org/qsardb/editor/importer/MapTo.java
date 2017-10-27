@@ -24,7 +24,7 @@ public enum MapTo {
 			return null;
 		}
 	},
-	DESCRIPTION("Compound Description", false){
+	DESCRIPTION("Compound Description", true){
 		@Override public Mapping createMapping(Container arg) {
 			return new CompoundDescriptionMapping();
 		}
