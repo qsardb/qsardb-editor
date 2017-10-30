@@ -49,6 +49,7 @@ public class EditMlrView extends EditCargoView {
 		toolbar.add(new JButton(new AbstractAction("Add descriptor") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				stopCellEditing();
 				List<Descriptor> descs = Select.descriptors(containerModel.getQdbContext(), "id", mlrModel.getDescriptors());
 				int nextRow = mlrModel.getRowCount();
 				for (Descriptor d: descs) {
@@ -64,6 +65,7 @@ public class EditMlrView extends EditCargoView {
 		final AbstractAction removeAction = new AbstractAction("Remove descriptor") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				stopCellEditing();
 				mlrModel.removeDescriptor(table.getSelectedRow());
 			}
 		};
@@ -86,13 +88,17 @@ public class EditMlrView extends EditCargoView {
 
 	@Override
 	protected Payload createPayload() throws QdbException {
-		if (table.isEditing()) {
-			table.getCellEditor().stopCellEditing();
-		}
+		stopCellEditing();
 		try {
 			return mlrModel.getPayload();
 		} catch (NumberFormatException ex) {
 			throw new QdbException("Invalid equation: "+ex.getMessage());
+		}
+	}
+
+	private void stopCellEditing() {
+		if (table.isEditing()) {
+			table.getCellEditor().stopCellEditing();
 		}
 	}
 }
