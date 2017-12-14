@@ -41,12 +41,12 @@ public class SaveAction extends AbstractAction {
 			}
 			try {
 				qdbContext.storeChangesZip(f);
+				setEnabled(false);
 			} catch (IOException ex) {
 				Utils.showExceptionPanel(ex.getMessage(), ex);
 				Logger.getLogger(SaveAction.class.getName()).log(Level.SEVERE, null, ex);
 				return;
 			}
-			setEnabled(false);
 
 		} else {
 
