@@ -4,13 +4,17 @@
 
 package org.qsardb.editor.common;
 
+import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -22,17 +26,45 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicFileChooserUI;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
 public class Utils {
+	public static void main(String[] args) { // DELME
+		for (int i=0; i<5; i++) {
+			JFileChooser fc = Utils.getFileChooser();
+			if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				System.out.println("Selected: "+fc.getSelectedFile());
+			}
+		}
+	}
 
-	private static final JFileChooser fc = new JFileChooser();
+	private static File currentDir = new File(System.getProperty("user.dir"));
 
 	public static JFileChooser getFileChooser() {
-		fc.resetChoosableFileFilters();
-		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		return fc;
+		return new JFileChooser(currentDir) {
+			private File prevSelection = null;
+			
+			@Override
+			public void approveSelection() {
+				AWTEvent currentEvent = EventQueue.getCurrentEvent();
+				File selection = getSelectedFile();
+				if (currentEvent instanceof KeyEvent && isTraversable(selection)) {
+					if (!selection.equals(prevSelection)) {
+						if (getUI() instanceof BasicFileChooserUI) {
+							setCurrentDirectory(selection);
+							((BasicFileChooserUI)getUI()).setFileName(selection.getAbsolutePath());
+							prevSelection = selection;
+							return;
+						}
+					}
+				}
+
+				currentDir = getCurrentDirectory();
+				super.approveSelection();
+			}
+		};
 	}
 
 	public static void showError(ActionEvent source, String text) {
