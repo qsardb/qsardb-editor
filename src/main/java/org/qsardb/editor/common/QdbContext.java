@@ -8,6 +8,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
 import org.qsardb.editor.events.QdbEvent;
@@ -15,6 +16,8 @@ import org.qsardb.model.Qdb;
 import org.qsardb.model.QdbException;
 import org.qsardb.model.Storage;
 import org.qsardb.storage.directory.DirectoryStorage;
+import org.qsardb.storage.memory.MemoryStorage;
+import org.qsardb.storage.zipfile.ZipFileInput;
 import org.qsardb.storage.zipfile.ZipFileOutput;
 
 public class QdbContext {
@@ -83,24 +86,34 @@ public class QdbContext {
 		savingNeeded = false;
 	}
 
-	public void loadArchive(File dir) throws IOException {
-		if (!dir.exists() && !dir.mkdirs()) {
-			throw new IOException("Unable to create: "+dir);
+	public void loadArchive(File qdbPath) throws IOException {
+		Storage storage = null;
+		if (qdbPath.isFile()) {
+			storage = new MemoryStorage();
+			try {
+				Qdb zip = new Qdb(new ZipFileInput(qdbPath));
+				zip.copyTo(storage);
+				zip.close();
+			} catch (QdbException e) {
+				throw new IOException(e);
+			}
+		} else if (qdbPath.isDirectory()) {
+			storage = new DirectoryStorage(qdbPath);
+		} else {
+			throw new FileNotFoundException("QDB archive not found: "+qdbPath);
 		}
 
 		try {
-			Storage storage = new DirectoryStorage(dir);
+			if (qdb != null) {
+				qdb.close();
+			}
+
 			qdb = new Qdb(storage);
-			path = dir.getAbsolutePath();
+			path = qdbPath.getAbsolutePath();
 			savingNeeded = false;
 		} catch (QdbException e) {
 			throw new IOException(e);
 		}
-	}
-
-	public void loadQdb(Qdb qdb, String path) {
-		this.qdb = qdb;
-		this.path = path;
 	}
 
 	private static class Handler implements SubscriberExceptionHandler {
