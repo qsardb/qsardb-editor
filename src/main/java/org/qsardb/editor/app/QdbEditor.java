@@ -176,9 +176,9 @@ public class QdbEditor implements Runnable {
 		if (qdbDir.isDirectory()) {
 			try {
 				qdbContext.loadArchive(qdbDir);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				String msg = "Can't open "+qdbDir+" - "+e.getMessage();
-				Utils.showError((Component)null, msg);
+				Utils.showExceptionPanel(msg, e);
 			}
 		}
 
