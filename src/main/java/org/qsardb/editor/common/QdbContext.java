@@ -10,6 +10,10 @@ import com.google.common.eventbus.SubscriberExceptionHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.swing.SwingUtilities;
 import org.qsardb.editor.events.QdbEvent;
 import org.qsardb.model.Qdb;
@@ -64,26 +68,26 @@ public class QdbContext {
 	}
 
 	public void storeChanges() throws IOException {
-		try {
-			getQdb().storeChanges();
-			savingNeeded = false;
-		} catch (QdbException e) {
-			throw new IOException(e);
+		Path currentPath = Paths.get(getPath());
+		if (Files.isRegularFile(currentPath)) {
+			Path tempPath = Files.createTempFile(currentPath.getParent(), "qdb_save_", "tmp");
+			ZipFileOutput storage = new ZipFileOutput(tempPath.toFile());
+			try {
+				getQdb().copyTo(storage);
+				storage.close();
+				Files.move(tempPath, currentPath, StandardCopyOption.REPLACE_EXISTING);
+				savingNeeded = false;
+			} catch (QdbException e) {
+				throw new IOException(e);
+			}
+		} else {
+			try {
+				getQdb().storeChanges();
+				savingNeeded = false;
+			} catch (QdbException e) {
+				throw new IOException(e);
+			}
 		}
-	}
-
-	public void storeChangesZip(File f) throws IOException {
-		try {
-			ZipFileOutput storage;
-			storage = new ZipFileOutput(f);
-			getQdb().copyTo(storage);
-			storage.close();
-
-		} catch (QdbException e) {
-			throw new IOException(e);
-		}
-
-		savingNeeded = false;
 	}
 
 	public void loadArchive(File qdbPath) throws IOException {
