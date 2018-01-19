@@ -56,7 +56,7 @@ public class QdbEditor implements Runnable {
 		qdbContext = context;
 		importAction = new DataImportAction(context);
 		saveAction = new SaveAction(context);
-		saveAsAction = new SaveAsAction(context);
+		saveAsAction = new SaveAsAction(this);
 		exportAction = new ExportAction(context);
 	}
 
@@ -116,6 +116,7 @@ public class QdbEditor implements Runnable {
 		boolean haveQdb = qdbContext.getQdb() != null;
 		importAction.setEnabled(haveQdb);
 		saveAction.setEnabled(false);
+		saveAsAction.setEnabled(haveQdb);
 		exportAction.setEnabled(haveQdb);
 
 		if (haveQdb) {
