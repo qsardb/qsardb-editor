@@ -27,7 +27,7 @@ public class DescriptorImportAction extends TableImportAction {
 			DescriptorRegistry dr = qdbContext.getQdb().getDescriptorRegistry();
 			Iterator<Row> i = table.rows();
 			if (!checkFormat(i.next())) {
-				Utils.showError("Invalid header, expected columns named: DescriptorID,Name,Application,Description");
+				Utils.showError("Invalid header, expected columns named: DescriptorID,Name,Application");
 				return;
 			}
 			while (i.hasNext()) {
@@ -40,9 +40,8 @@ public class DescriptorImportAction extends TableImportAction {
 					descriptor = new Descriptor(did);
 				}
 
-				descriptor.setName(values.get(1));
-				descriptor.setApplication(values.get(2));
-				descriptor.setDescription(values.get(3));
+				descriptor.setName(values.get(1).trim());
+				descriptor.setApplication(values.get(2).trim());
 
 				if (dr.contains(descriptor)) {
 					qdbContext.fire(new DescriptorEvent(this, DescriptorEvent.Type.Update, descriptor));
@@ -58,10 +57,10 @@ public class DescriptorImportAction extends TableImportAction {
 
 	private boolean checkFormat(Row r) {
 		ArrayList<String> h = getValues(r);
-		return ("DescriptorID".equalsIgnoreCase(h.get(0)) || "ID".equalsIgnoreCase(h.get(0)))
+		return h.size() >= 3
+				&& ("DescriptorID".equalsIgnoreCase(h.get(0)) || "ID".equalsIgnoreCase(h.get(0)))
 				&& "Name".equalsIgnoreCase(h.get(1))
-				&& "Application".equalsIgnoreCase(h.get(2))
-				&& "DescriptorID".equalsIgnoreCase(h.get(3));
+				&& "Application".equalsIgnoreCase(h.get(2));
 	}
 
 	private ArrayList<String> getValues(Row row) {

@@ -38,7 +38,7 @@ public class AddDescriptorAction extends AddContainerAction<Descriptor> {
 						getDialog().dispose();
 					}
 				});
-				descIButton.setToolTipText("Spreadsheet must contain the following columns (with header): DescriptorID, Name, Description, Application");
+				descIButton.setToolTipText("Spreadsheet must contain the following columns (with header): DescriptorID, Name, Application");
 				((JPanel) p.getComponent(1)).add(descIButton, FlowLayout.LEFT);
 
 				return p;
