@@ -31,21 +31,12 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
 public class Utils {
-	public static void main(String[] args) { // DELME
-		for (int i=0; i<5; i++) {
-			JFileChooser fc = Utils.getFileChooser();
-			if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				System.out.println("Selected: "+fc.getSelectedFile());
-			}
-		}
-	}
-
 	private static File currentDir = new File(System.getProperty("user.dir"));
 
 	public static JFileChooser getFileChooser() {
 		return new JFileChooser(currentDir) {
 			private File prevSelection = null;
-			
+
 			@Override
 			public void approveSelection() {
 				AWTEvent currentEvent = EventQueue.getCurrentEvent();
