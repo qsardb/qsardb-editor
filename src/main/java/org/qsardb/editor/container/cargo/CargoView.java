@@ -116,7 +116,7 @@ public class CargoView {
 	}
 
 	private Action createImportAction() {
-		return new AbstractAction("Import") {
+		return new AbstractAction("Attach") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = Utils.getFileChooser();
