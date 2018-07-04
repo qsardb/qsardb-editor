@@ -13,11 +13,11 @@ import org.qsardb.editor.common.Utils;
 import org.qsardb.model.QdbException;
 import org.qsardb.storage.directory.DirectoryStorage;
 
-class SaveAsAction extends AbstractAction {
+class SaveACopyAction extends AbstractAction {
 	private final QdbEditor appFrame;
 
-	public SaveAsAction(QdbEditor appFrame) {
-		super("SaveAs");
+	public SaveACopyAction(QdbEditor appFrame) {
+		super("Save a copy");
 		this.appFrame = appFrame;
 	}
 

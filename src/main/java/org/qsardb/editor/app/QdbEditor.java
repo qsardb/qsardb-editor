@@ -49,14 +49,14 @@ public class QdbEditor implements Runnable {
 	private final JTabbedPane tabs = new JTabbedPane();
 	private final DataImportAction importAction;
 	private final SaveAction saveAction;
-	private final SaveAsAction saveAsAction;
+	private final SaveACopyAction saveAsAction;
 	private final ExportAction exportAction;
 
 	private QdbEditor(QdbContext context) {
 		qdbContext = context;
 		importAction = new DataImportAction(context);
 		saveAction = new SaveAction(context);
-		saveAsAction = new SaveAsAction(this);
+		saveAsAction = new SaveACopyAction(this);
 		exportAction = new ExportAction(context);
 	}
 
