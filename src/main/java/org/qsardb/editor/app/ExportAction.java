@@ -8,9 +8,11 @@ import org.qsardb.editor.common.Utils;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import org.qsardb.editor.common.QdbContext;
+import org.qsardb.model.QdbException;
 import org.qsardb.storage.zipfile.ZipFileOutput;
 
 public class ExportAction extends AbstractAction {
@@ -36,8 +38,8 @@ public class ExportAction extends AbstractAction {
 				ZipFileOutput storage = new ZipFileOutput(f);
 				qdbContext.getQdb().copyTo(storage);
 				storage.close();
-			} catch (Exception ex) {
-				Utils.showError(e, "Export failed: "+ex.getMessage());
+			} catch (IOException | QdbException ex) {
+				Utils.showExceptionPanel("Export failed: "+ex.getMessage(), ex);
 			}
 		}
 	}

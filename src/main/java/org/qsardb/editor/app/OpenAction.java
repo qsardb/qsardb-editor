@@ -47,7 +47,7 @@ class OpenAction extends AbstractAction {
 			return;
 		} else if (!qdbDir.exists() && newQdb) {
 			if (!qdbDir.mkdirs()) {
-				Utils.showError("Unable to create: "+qdbDir);
+				Utils.showError(appFrame.getJFrame(), "Unable to create: "+qdbDir);
 				return;
 			}
 		}
@@ -59,7 +59,7 @@ class OpenAction extends AbstractAction {
 				appFrame.refreshEditor();
 			} catch (IOException e) {
 				String msg = "Can't open " + qdbDir + " - " + e.getMessage();
-				Utils.showError(appFrame.getJFrame(), msg);
+				Utils.showExceptionPanel(msg, e);
 			}
 		}
 	}

@@ -45,7 +45,7 @@ class SaveACopyAction extends AbstractAction {
 				DirectoryStorage storage = new DirectoryStorage(dir);
 				appFrame.getContext().getQdb().copyTo(storage);
 			} catch (IOException | QdbException ex) {
-				throw new RuntimeException(ex);
+				Utils.showExceptionPanel("Unable to save a copy: "+dir, ex);
 			}
 		}
 	}

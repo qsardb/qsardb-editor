@@ -24,7 +24,7 @@ public class SaveAction extends AbstractAction {
 			qdbContext.storeChanges();
 			setEnabled(false);
 		} catch (IOException ex) {
-			Utils.showError(e, "Saving error: "+ex.getMessage());
+			Utils.showExceptionPanel("Saving error: "+ex.getMessage(), ex);
 		}
 	}
 }

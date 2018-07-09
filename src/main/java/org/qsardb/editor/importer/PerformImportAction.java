@@ -43,7 +43,7 @@ public class PerformImportAction extends AbstractAction {
 		try {
 			importTable();
 		} catch (IllegalArgumentException ex) {
-			Utils.showError(e, ex.getMessage());
+			Utils.showExceptionPanel(ex.getMessage(), ex);
 		}
 	}
 
