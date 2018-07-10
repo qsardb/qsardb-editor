@@ -14,7 +14,6 @@ import org.dmg.pmml.IOUtil;
 import org.dmg.pmml.Model;
 import org.dmg.pmml.PMML;
 import org.dmg.pmml.RegressionModel;
-import org.jpmml.evaluator.RegressionModelEvaluator;
 import org.qsardb.cargo.pmml.PMMLCargo;
 import org.qsardb.conversion.regression.Equation;
 import org.qsardb.conversion.regression.RegressionUtil;

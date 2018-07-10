@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.util.Collection;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
-import org.qsardb.editor.events.ContainerEvent;
 import org.qsardb.editor.events.ModelEvent;
 import org.qsardb.model.Model;
 import org.qsardb.model.Prediction;

@@ -6,7 +6,6 @@ package org.qsardb.editor.container;
 
 import com.google.common.base.Strings;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Set;
 import org.qsardb.editor.common.QdbContext;

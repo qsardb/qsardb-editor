@@ -6,7 +6,6 @@ package org.qsardb.editor.registry.actions;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import org.qsardb.conversion.table.Table;

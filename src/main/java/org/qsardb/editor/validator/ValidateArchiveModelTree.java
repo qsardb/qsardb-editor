@@ -4,7 +4,6 @@
 
 package org.qsardb.editor.validator;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.SwingWorker;
@@ -15,7 +14,6 @@ import javax.swing.tree.TreeNode;
 import org.qsardb.editor.common.QdbContext;
 import org.qsardb.editor.common.Utils;
 import org.qsardb.model.Qdb;
-import org.qsardb.model.QdbException;
 import org.qsardb.storage.memory.MemoryStorage;
 import org.qsardb.validation.Message;
 import org.qsardb.validation.MessageCollector;
@@ -57,7 +55,6 @@ public class ValidateArchiveModelTree extends DefaultTreeModel {
 			tmpQdb.close();
 		} catch (Exception e) {
 			Utils.showExceptionPanel(e.toString(), e);
-			return;
 		} finally {
 			InsertNodeInto();
 			reload();
