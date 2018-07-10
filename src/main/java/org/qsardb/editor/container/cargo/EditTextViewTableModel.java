@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import org.qsardb.cargo.map.ValuesCargo;
+import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.container.ContainerModel;
 
 public class EditTextViewTableModel extends AbstractTableModel {
@@ -75,15 +74,14 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		loadData();
 	}
 
-	public void loadData() {
+	private void loadData() {
 		if (model.getContainer().hasCargo(ValuesCargo.class)) {
 			ValuesCargo vcProp = (ValuesCargo) model.getContainer().getCargo(ValuesCargo.class);
 			values = new LinkedHashMap();
 			try {
 				values = new LinkedHashMap(vcProp.loadStringMap());
-
 			} catch (IOException ex) {
-				Logger.getLogger(EditTextViewTableModel.class.getName()).log(Level.SEVERE, null, ex);
+				Utils.showError("Can't load values cargo" + "\n" + ex.getMessage());
 			}
 		}
 	}
@@ -121,12 +119,12 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		}
 	}
 
-	public void initialize(ContainerModel model) {
+	private void initialize(ContainerModel model) {
 		this.model = model;
 		try {
 			setText(model.loadCargoString("values"));
 		} catch (IOException ex) {
-			Logger.getLogger(EditTextViewTableModel.class.getName()).log(Level.SEVERE, null, ex);
+			Utils.showError("Can't load values cargo" + "\n" + ex.getMessage());
 		}
 		table = new JTable(this);
 
