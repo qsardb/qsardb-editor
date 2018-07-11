@@ -54,10 +54,6 @@ class EditValuesView extends EditCargoView {
 		};
 	}
 
-	String getText() {
-		return tm.getText();
-	}
-
 	@Override
 	public void showModal(String title) {
 		JPanel contentPane = new JPanel(new BorderLayout());
@@ -124,11 +120,4 @@ class EditValuesView extends EditCargoView {
 	private void initTextArea() {
 		tm = new EditTextViewTableModel(model);
 	}
-
-	public JScrollPane getScrollPane() {
-		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		return jsp;
-	}
-
 }
