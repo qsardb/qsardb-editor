@@ -36,7 +36,7 @@ public abstract class EditCargoView {
 		JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.add(buildContentPanel(), BorderLayout.CENTER);
 
-		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 6));
+		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 6));
 		contentPane.add(buttons, BorderLayout.SOUTH);
 
 		JButton closeButton = new JButton(new AbstractAction("Close") {
