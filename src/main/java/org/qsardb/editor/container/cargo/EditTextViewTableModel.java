@@ -8,18 +8,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import org.qsardb.cargo.map.ValuesCargo;
 import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.container.ContainerModel;
 
 public class EditTextViewTableModel extends AbstractTableModel {
-	private JTable table;
-	private JScrollPane jsp;
 	private ContainerModel model;
 	private Map values;
 	private final static int numOfColumns = 3;
@@ -48,15 +42,7 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		}
 	}
 
-	public int getRowHeight() {
-		return table.getRowHeight();
-	}
-
 	public String getText() {
-		if (table.isEditing()) {
-			table.getCellEditor().stopCellEditing();
-		}
-
 		String valuesString = "id\t\n";
 		if (values.containsKey("")) {
 			values.remove("");
@@ -90,10 +76,9 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		}
 	}
 
-	public void removeRow() {
-		int[] n = table.getSelectedRows();
+	public void removeRows(int[] rows) {
 		Map BufferedValues = new LinkedHashMap(values);
-		for (int i : n) {
+		for (int i : rows) {
 			Object o = getValueAt(i, 1);
 			BufferedValues.remove(o);
 		}
@@ -115,12 +100,6 @@ public class EditTextViewTableModel extends AbstractTableModel {
 			values = bufferedValues;
 			fireTableDataChanged();
 		}
-
-		if (above) {
-			table.scrollRectToVisible(table.getCellRect(table.getRowCount() - 1, 0, true));
-		} else {
-			table.scrollRectToVisible(table.getCellRect(0, 0, true));
-		}
 	}
 
 	private void initialize(ContainerModel model) {
@@ -130,21 +109,6 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		} catch (IOException ex) {
 			Utils.showError("Can't load values cargo" + "\n" + ex.getMessage());
 		}
-		table = new JTable(this);
-
-		DefaultCellEditor singleclick = new DefaultCellEditor(new JTextField());
-		singleclick.setClickCountToStart(1);
-		for (int i = 0; i < table.getColumnCount(); i++) {
-			table.setDefaultEditor(table.getColumnClass(i), singleclick);
-		}
-
-		this.jsp = new JScrollPane(table);
-	}
-
-	public JScrollPane getScrollPane() {
-		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		return jsp;
 	}
 
 	@Override
