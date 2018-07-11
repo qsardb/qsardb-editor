@@ -53,7 +53,11 @@ public class EditTextViewTableModel extends AbstractTableModel {
 	}
 
 	public String getText() {
-		String valuesString = new String("id\t\n");
+		if (table.isEditing()) {
+			table.getCellEditor().stopCellEditing();
+		}
+
+		String valuesString = "id\t\n";
 		if (values.containsKey("")) {
 			values.remove("");
 		}
