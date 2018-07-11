@@ -33,25 +33,6 @@ class EditValuesView extends EditCargoView {
 
 	public EditValuesView(ContainerModel model, String cargoId) {
 		super(model, cargoId);
-		initTextArea();
-		removeRow = new AbstractAction("Remove row") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tm.removeRow();
-			}
-		};
-		addRow = new AbstractAction("Add row below") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tm.addRow(true);
-			}
-		};
-		addRowAbove = new AbstractAction("Add row above") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tm.addRow(false);
-			}
-		};
 	}
 
 	@Override
@@ -108,16 +89,31 @@ class EditValuesView extends EditCargoView {
 
 	@Override
 	protected JComponent buildContentPanel() {
+		tm = new EditTextViewTableModel(model);
 		jsp = tm.getScrollPane();
+		removeRow = new AbstractAction("Remove row") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tm.removeRow();
+			}
+		};
+		addRow = new AbstractAction("Add row below") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tm.addRow(true);
+			}
+		};
+		addRowAbove = new AbstractAction("Add row above") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tm.addRow(false);
+			}
+		};
 		return jsp;
 	}
 
 	@Override
 	protected Payload createPayload() throws QdbException {
 		return new StringPayload(tm.getText());
-	}
-
-	private void initTextArea() {
-		tm = new EditTextViewTableModel(model);
 	}
 }
