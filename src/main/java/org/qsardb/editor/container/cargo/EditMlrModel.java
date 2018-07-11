@@ -25,7 +25,7 @@ import org.qsardb.model.Qdb;
 import org.qsardb.model.QdbException;
 
 public class EditMlrModel extends AbstractTableModel {
-	private final ArrayList<Equation.Term> data = new ArrayList<Equation.Term>();
+	private final ArrayList<Equation.Term> data = new ArrayList<>();
 	private ModelModel model = null;
 
 	public EditMlrModel() {
@@ -93,13 +93,11 @@ public class EditMlrModel extends AbstractTableModel {
 			return data.get(rowIndex).getCoefficient();
 		} else if (columnIndex == 1) {
 			return t.isIntercept() ? "" : t.getIdentifier();
+		} else if (columnIndex == 2 && t.isIntercept()) {
+			return "Intercept";
 		} else if (columnIndex == 2) {
-			if (t.isIntercept()) {
-				return "Intercept";
-			} else {
-				Descriptor d = model.getQdbContext().getQdb().getDescriptor(t.getIdentifier());
-				return d.getName();
-			}
+			Descriptor d = model.getQdbContext().getQdb().getDescriptor(t.getIdentifier());
+			return d.getName();
 		}
 		throw new IllegalArgumentException("col: " + columnIndex);
 	}
@@ -117,7 +115,7 @@ public class EditMlrModel extends AbstractTableModel {
 	}
 
 	List<String> getDescriptors() {
-		ArrayList<String> l = new ArrayList<String>();
+		ArrayList<String> l = new ArrayList<>();
 		for (Equation.Term term: data) {
 			if (!term.isIntercept()) {
 				l.add(term.getIdentifier());
