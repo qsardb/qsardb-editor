@@ -5,158 +5,113 @@
 package org.qsardb.editor.container.cargo;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 import org.qsardb.cargo.map.ValuesCargo;
-import org.qsardb.editor.common.Utils;
 import org.qsardb.editor.container.ContainerModel;
+import org.qsardb.model.QdbException;
 
 public class EditTextViewTableModel extends AbstractTableModel {
-	private ContainerModel model;
-	private Map values;
-	private final static int numOfColumns = 3;
+	private Map<String, String>  values;
+
+	private static final String[] header = {"row", "id", "value"};
+	private ArrayList<String> rows;
 
 	public EditTextViewTableModel(ContainerModel model) {
-		values = new LinkedHashMap();
-		initialize(model);
+		try {
+			values = new LinkedHashMap(loadValuesCargo(model));
+			rows = new ArrayList<>(values.keySet());
+		} catch (IOException ex) {
+			throw new IllegalArgumentException("Can't load values cargo: " + ex.getMessage(), ex);
+		}
+	}
+
+	public Map<String, String> getValues() throws QdbException {
+		LinkedHashMap<String, String> map = new LinkedHashMap<>(rows.size());
+		for (int i=0; i<rows.size(); i++) {
+			String key = rows.get(i);
+			String value = values.get(key);
+			if (key.isEmpty() || value.isEmpty()) {
+				throw new QdbException("Row "+(i+1)+" has a missing value");
+			}
+			map.put(key, value);
+		}
+		return map;
+	}
+
+	public void removeRows(int[] rows) {
+	}
+
+	public void addRow(boolean above) {
 	}
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		if (columnIndex != 0) {
-			return true;
-		}
-		return super.isCellEditable(rowIndex, columnIndex);
+		return columnIndex != 0;
 	}
 
 	@Override
 	public String getColumnName(int column) {
-		if (column == 0) {
-			return "row";
-		} else if (column == 1) {
-			return "id";
-		} else {
-			return "value";
-		}
-	}
-
-	public String getText() {
-		String valuesString = "id\t\n";
-		if (values.containsKey("")) {
-			values.remove("");
-		}
-
-		Iterator iterator = values.keySet().iterator();
-
-		while (iterator.hasNext()) {
-			String key = iterator.next().toString();
-			String value = (String) values.get(key);
-
-			valuesString += key + "\t" + value + "\n";
-		}
-		return valuesString;
-
-	}
-
-	public void setText(String text) {
-		loadData();
-	}
-
-	private void loadData() {
-		if (model.getContainer().hasCargo(ValuesCargo.class)) {
-			ValuesCargo vcProp = (ValuesCargo) model.getContainer().getCargo(ValuesCargo.class);
-			values = new LinkedHashMap();
-			try {
-				values = new LinkedHashMap(vcProp.loadStringMap());
-			} catch (IOException ex) {
-				Utils.showError("Can't load values cargo" + "\n" + ex.getMessage());
-			}
-		}
-	}
-
-	public void removeRows(int[] rows) {
-		Map BufferedValues = new LinkedHashMap(values);
-		for (int i : rows) {
-			Object o = getValueAt(i, 1);
-			BufferedValues.remove(o);
-		}
-		values = BufferedValues;
-		fireTableDataChanged();
-	}
-
-	public void addRow(boolean above) {
-		if (above) {
-			if (values.containsKey("")) {
-				values.remove("");
-			}
-			values.put("", null);
-			fireTableDataChanged();
-		} else {
-			Map bufferedValues = new LinkedHashMap();
-			bufferedValues.put("", null);
-			bufferedValues.putAll(values);
-			values = bufferedValues;
-			fireTableDataChanged();
-		}
-	}
-
-	private void initialize(ContainerModel model) {
-		this.model = model;
-		try {
-			setText(model.loadCargoString("values"));
-		} catch (IOException ex) {
-			Utils.showError("Can't load values cargo" + "\n" + ex.getMessage());
-		}
+		return header[column];
 	}
 
 	@Override
 	public int getRowCount() {
-		return values.size();
+		return rows.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return numOfColumns;
+		return header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Object o = values.keySet().toArray()[rowIndex];
-		if (columnIndex == 0) {
-			return rowIndex + 1;
-		} else if (columnIndex == 1) {
-			return o;
-		} else {
-			return values.get(o);
+		String cid = rows.get(rowIndex);
+		switch (columnIndex) {
+			case 0:
+				return String.valueOf(rowIndex + 1);
+			case 1:
+				return cid;
+			case 2:
+				return values.get(cid);
+			default:
+				throw new IllegalArgumentException("column="+columnIndex);
 		}
 	}
 
 	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		super.setValueAt(aValue, rowIndex, columnIndex);
-		if (columnIndex == 2) {
-			values.put(getValueAt(rowIndex, 1), aValue);
-		} else if (columnIndex == 1) {
-			Object o = getValueAt(rowIndex, 2);
-			Map bufferedValues = new LinkedHashMap();
-			int i = 0;
-			for (Object k : values.keySet()) {
-				if (i == rowIndex) {
-					bufferedValues.put(aValue, getValueAt(rowIndex, 2));
-					i++;
-					continue;
-				}
-				if (k.equals(aValue) || k.equals(getValueAt(rowIndex, columnIndex))) {
-					i++;
-					continue;
-				}
-				bufferedValues.put(k, values.get(k));
-				i++;
-			}
-			values = bufferedValues;
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		String curKey = rows.get(rowIndex);
+		String newValue = (String)value;
+
+		switch (columnIndex) {
+			case 1:
+				if (curKey.equals(newValue)) {
+					return;
+				} else if (values.containsKey(newValue)) {
+					return; // XXX
+				}	values.put(newValue, values.get(curKey));
+				values.remove(curKey);
+				rows.set(rowIndex, newValue);
+				break;
+			case 2:
+				values.put(curKey, newValue);
+				break;
+			default:
+				throw new IllegalArgumentException("columnIndex="+columnIndex);
 		}
-		fireTableDataChanged();
+
+		fireTableCellUpdated(rowIndex, columnIndex);
+	}
+
+	private Map<String, String> loadValuesCargo(ContainerModel model) throws IOException {
+		if (model.getContainer().hasCargo(ValuesCargo.class)) {
+			ValuesCargo vcProp = (ValuesCargo) model.getContainer().getCargo(ValuesCargo.class);
+			return vcProp.loadStringMap();
+		}
+		return new LinkedHashMap<>();
 	}
 }

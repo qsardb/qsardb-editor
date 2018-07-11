@@ -19,7 +19,7 @@ import org.qsardb.model.Payload;
 import org.qsardb.model.QdbException;
 
 public abstract class EditCargoView {
-	protected JDialog frame;
+	private JDialog frame;
 
 	protected final ContainerModel model;
 	protected final String cargoId;

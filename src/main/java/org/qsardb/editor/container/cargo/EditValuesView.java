@@ -7,6 +7,8 @@ package org.qsardb.editor.container.cargo;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -16,10 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import org.qsardb.cargo.map.StringFormat;
+import org.qsardb.cargo.map.ValuesCargo;
 import org.qsardb.editor.container.ContainerModel;
+import org.qsardb.model.ByteArrayPayload;
 import org.qsardb.model.Payload;
+import org.qsardb.model.Property;
 import org.qsardb.model.QdbException;
-import org.qsardb.model.StringPayload;
 
 class EditValuesView extends EditCargoView {
 	private JScrollPane jsp;
@@ -88,6 +93,15 @@ class EditValuesView extends EditCargoView {
 			table.getCellEditor().stopCellEditing();
 		}
 
-		return new StringPayload(tm.getText());
+		Property tmpContainer = new Property(model.getContainer().getId());
+		tmpContainer.setName(model.getContainer().getName());
+		ValuesCargo tmpCargo = tmpContainer.getOrAddCargo(ValuesCargo.class);
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		try {
+			tmpCargo.formatMap(tm.getValues(), new StringFormat(), os);
+			return new ByteArrayPayload(os.toByteArray());
+		} catch (IOException ex) {
+			throw new QdbException("Unable to serialize values cargo: "+ex.getMessage(), ex);
+		}
 	}
 }
