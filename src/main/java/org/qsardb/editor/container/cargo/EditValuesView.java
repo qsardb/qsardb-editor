@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.qsardb.cargo.map.StringFormat;
 import org.qsardb.cargo.map.ValuesCargo;
 import org.qsardb.editor.container.ContainerModel;
@@ -28,11 +30,13 @@ import org.qsardb.model.QdbException;
 
 class EditValuesView extends EditCargoView {
 	private JScrollPane jsp;
-	private EditTextViewTableModel tm;
-	private JTable table;
+	private final EditTextViewTableModel tm;
+	private final JTable table;
 
 	public EditValuesView(ContainerModel model, String cargoId) {
 		super(model, cargoId);
+		tm = new EditTextViewTableModel(model);
+		table = new JTable(tm);
 	}
 
 	@Override
@@ -41,35 +45,52 @@ class EditValuesView extends EditCargoView {
 
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 6));
 
-		JButton addRow = new JButton(new AbstractAction("Add row below") {
+		final JButton addRowBelow = new JButton(new AbstractAction("Add row below") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tm.addRow(true);
-				table.scrollRectToVisible(table.getCellRect(table.getRowCount() - 1, 0, true));
+				stopCellEditing();
+				int i = table.getSelectedRow() + 1;
+				tm.addRow(i);
+				table.setRowSelectionInterval(i, i);
 			}
 		});
-		buttons.add(addRow);
+		addRowBelow.setEnabled(table.getRowCount() == 0);
+		buttons.add(addRowBelow);
 
-		JButton addRowAbove = new JButton(new AbstractAction("Add row above") {
+		final JButton addRowAbove = new JButton(new AbstractAction("Add row above") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				tm.addRow(false);
-				table.scrollRectToVisible(table.getCellRect(0, 0, true));
+				stopCellEditing();
+				int i = table.getSelectedRow();
+				tm.addRow(i);
+				table.setRowSelectionInterval(i, i);
 			}
 		});
+		addRowAbove.setEnabled(false);
 		buttons.add(addRowAbove);
 
-		JButton removeRow = new JButton(new AbstractAction("Remove row") {
+		final JButton removeRow = new JButton(new AbstractAction("Remove row") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				stopCellEditing();
 				int[] rows = table.getSelectedRows();
 				tm.removeRows(rows);
 			}
 		});
+		removeRow.setEnabled(false);
 		buttons.add(removeRow);
 
-		tm = new EditTextViewTableModel(model);
-		table = new JTable(tm);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					int n = table.getSelectedRows().length; 
+					removeRow.setEnabled(n > 0);
+					addRowBelow.setEnabled(n == 1);
+					addRowAbove.setEnabled(n == 1);
+				}
+			}
+		});
 
 		DefaultCellEditor singleclick = new DefaultCellEditor(new JTextField());
 		singleclick.setClickCountToStart(1);
@@ -89,9 +110,7 @@ class EditValuesView extends EditCargoView {
 
 	@Override
 	protected Payload createPayload() throws QdbException {
-		if (table.isEditing()) {
-			table.getCellEditor().stopCellEditing();
-		}
+		stopCellEditing();
 
 		Property tmpContainer = new Property(model.getContainer().getId());
 		tmpContainer.setName(model.getContainer().getName());
@@ -102,6 +121,12 @@ class EditValuesView extends EditCargoView {
 			return new ByteArrayPayload(os.toByteArray());
 		} catch (IOException ex) {
 			throw new QdbException("Unable to serialize values cargo: "+ex.getMessage(), ex);
+		}
+	}
+
+	private void stopCellEditing() {
+		if (table.isEditing()) {
+			table.getCellEditor().stopCellEditing();
 		}
 	}
 }

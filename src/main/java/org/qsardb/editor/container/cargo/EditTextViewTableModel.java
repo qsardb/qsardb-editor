@@ -32,7 +32,7 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		LinkedHashMap<String, String> map = new LinkedHashMap<>(rows.size());
 		for (int i=0; i<rows.size(); i++) {
 			String key = rows.get(i);
-			String value = values.get(key);
+			String value = values.getOrDefault(key, "");
 			if (key.isEmpty() || value.isEmpty()) {
 				throw new QdbException("Row "+(i+1)+" has a missing value");
 			}
@@ -41,10 +41,19 @@ public class EditTextViewTableModel extends AbstractTableModel {
 		return map;
 	}
 
-	public void removeRows(int[] rows) {
+	public void removeRows(int[] selection) {
+		for (int i=selection.length-1; i>=0; i--) {
+			int index = selection[i];
+			String key = rows.get(index);
+			rows.remove(index);
+			values.remove(key);
+		}
+		fireTableDataChanged();
 	}
 
-	public void addRow(boolean above) {
+	public void addRow(int selection) {
+		rows.add(selection, "");
+		fireTableRowsInserted(selection, selection);
 	}
 
 	@Override
@@ -76,7 +85,7 @@ public class EditTextViewTableModel extends AbstractTableModel {
 			case 1:
 				return cid;
 			case 2:
-				return values.get(cid);
+				return values.getOrDefault(cid, "");
 			default:
 				throw new IllegalArgumentException("column="+columnIndex);
 		}
@@ -93,7 +102,8 @@ public class EditTextViewTableModel extends AbstractTableModel {
 					return;
 				} else if (values.containsKey(newValue)) {
 					return; // XXX
-				}	values.put(newValue, values.get(curKey));
+				}
+				values.put(newValue, values.getOrDefault(curKey, ""));
 				values.remove(curKey);
 				rows.set(rowIndex, newValue);
 				break;
