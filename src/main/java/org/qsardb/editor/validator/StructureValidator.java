@@ -270,7 +270,7 @@ public class StructureValidator extends ContainerValidator<Compound> {
 		NameToStructure nts = NameToStructure.getInstance();
 		NameToStructureConfig ntsconfig = new NameToStructureConfig();
 		OpsinResult result = nts.parseChemicalName(name, ntsconfig);
-		String inchi = NameToInchi.convertResultToInChI(result);
+		String inchi = NameToInchi.convertResultToStdInChI(result);
 
 		if (inchi == null) {
 			return result.getStatus() + " " + result.getMessage();
