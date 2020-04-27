@@ -43,6 +43,16 @@ public class MappingRulesModel extends AbstractTableModel {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
+		for (Descriptor dscr : context.getQdb().getDescriptorRegistry()) {
+			mapByContainer(dscr);
+		}
+		for (Property prop : context.getQdb().getPropertyRegistry()) {
+			mapByContainer(prop);
+		}
+		for (Prediction pred : context.getQdb().getPredictionRegistry()) {
+			mapByContainer(pred);
+		}
 	}
 
 	private MappingRule guessMappingRule(Column col, String colHeading) {

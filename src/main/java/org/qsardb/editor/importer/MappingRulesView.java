@@ -47,16 +47,6 @@ public class MappingRulesView {
 		table.getColumnModel().getColumn(0).setWidth(80);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		editColumn.setMaxWidth(comp.getPreferredSize().width + 4);
-
-		for (Descriptor dscr : qdbContext.getQdb().getDescriptorRegistry()) {
-			model.mapByContainer(dscr);
-		}
-		for (Property prop : qdbContext.getQdb().getPropertyRegistry()) {
-			model.mapByContainer(prop);
-		}
-		for (Prediction pred : qdbContext.getQdb().getPredictionRegistry()) {
-			model.mapByContainer(pred);
-		}
 	}
 
 	public JPanel buildView() {
