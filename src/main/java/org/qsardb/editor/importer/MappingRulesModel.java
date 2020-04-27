@@ -37,13 +37,19 @@ public class MappingRulesModel extends AbstractTableModel {
 					String val = firstRow.getValues().get(col).getText();
 					colHeading = (val != null) ? val : "Column "+col.getId();
 				}
-				MappingRule rule = guessMappingRule(col, colHeading);
-				mappings.add(rule);
+				mappings.add(new MappingRule(col.getId(), colHeading));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+		mapAttribute("id", MapTo.COMPOUND_ID);
+		mapAttribute("name", MapTo.COMPOUND_NAME);
+		mapAttribute("cas", MapTo.CAS_NUMBER);
+		mapAttribute("inchi", MapTo.INCHI);
+		mapAttribute("smiles", MapTo.SMILES);
+		mapAttribute("molfile", MapTo.MOLFILE);
+		
 		for (Descriptor dscr : context.getQdb().getDescriptorRegistry()) {
 			mapByContainer(dscr);
 		}
@@ -55,22 +61,14 @@ public class MappingRulesModel extends AbstractTableModel {
 		}
 	}
 
-	private MappingRule guessMappingRule(Column col, String colHeading) {
-		MappingRule rule = new MappingRule(col.getId(), colHeading);
-		if ("id".equalsIgnoreCase(colHeading)) {
-			rule.update(MapTo.COMPOUND_ID, null);
-		} else if ("name".equalsIgnoreCase(colHeading)) {
-			rule.update(MapTo.COMPOUND_NAME, null);
-		} else if ("cas".equalsIgnoreCase(colHeading)) {
-			rule.update(MapTo.CAS_NUMBER, null);
-		} else if ("inchi".equalsIgnoreCase(colHeading)) {
-			rule.update(MapTo.INCHI, null);
-		} else if ("smiles".equalsIgnoreCase(colHeading)) {
-			rule.update(MapTo.SMILES, null);
-		} else if ("molfile".equals(colHeading)) {
-			rule.update(MapTo.MOLFILE, null);
+	private void mapAttribute(String name, MapTo target) {
+		for (int i=0; i<mappings.size(); i++) {
+			String colHeading = mappings.get(i).getSourceColumnHeading();
+			if (name.equalsIgnoreCase(colHeading)) {
+				updateMappingRule(i, target, null);
+				return;
+			}
 		}
-		return rule;
 	}
 
 	public boolean hasHeader() {
@@ -103,7 +101,7 @@ public class MappingRulesModel extends AbstractTableModel {
 				fireTableCellUpdated(i, 1);
 			}
 		}
-		
+
 		mappings.set(rowIndex, rule);
 		fireTableCellUpdated(rowIndex, 1);
 	}
