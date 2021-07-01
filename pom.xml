@@ -65,6 +65,12 @@
       <artifactId>excel</artifactId>
       <version>1.1-SNAPSHOT</version>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>stax</groupId>
+          <artifactId>stax-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.qsardb.conversion</groupId>
@@ -128,6 +134,7 @@
       <artifactId>junit</artifactId>
       <groupId>junit</groupId>
       <version>4.11</version>
+	  <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jfree</groupId>
@@ -225,7 +232,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <finalName>qsardb-editor-${version}</finalName>
+              <finalName>qsardb-editor-${project.version}</finalName>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>org.qsardb.editor.app.QdbEditor</mainClass>
