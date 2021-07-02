@@ -16,55 +16,46 @@
       <groupId>org.qsardb</groupId>
       <artifactId>model</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.storage</groupId>
       <artifactId>directory</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.storage</groupId>
       <artifactId>zipfile</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.cargo</groupId>
       <artifactId>map</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.cargo</groupId>
       <artifactId>bibtex</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.cargo</groupId>
       <artifactId>structure</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.cargo</groupId>
       <artifactId>pmml</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.conversion</groupId>
       <artifactId>csv</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.conversion</groupId>
       <artifactId>excel</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
       <exclusions>
         <exclusion>
           <groupId>stax</groupId>
@@ -76,31 +67,26 @@
       <groupId>org.qsardb.conversion</groupId>
       <artifactId>opendocument</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.conversion</groupId>
       <artifactId>sdfile</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.cargo</groupId>
       <artifactId>ucum</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb.resolution</groupId>
       <artifactId>doi</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb</groupId>
       <artifactId>validation</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
       <exclusions>
         <exclusion>
           <groupId>org.openscience.cdk</groupId>
@@ -116,19 +102,16 @@
       <groupId>org.qsardb.storage</groupId>
       <artifactId>memory</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>com.beust</groupId>
       <artifactId>jcommander</artifactId>
       <version>1.20</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>18.0</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <artifactId>junit</artifactId>
@@ -140,67 +123,56 @@
       <groupId>org.jfree</groupId>
       <artifactId>jfreechart</artifactId>
       <version>1.0.19</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.qsardb</groupId>
       <artifactId>statistics</artifactId>
       <version>1.1-SNAPSHOT</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-standard</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-data</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-renderbasic</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-renderawt</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-sdg</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-inchi</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-silent</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>org.openscience.cdk</groupId>
       <artifactId>cdk-legacy</artifactId>
       <version>2.5</version>
-      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>uk.ac.cam.ch.opsin</groupId>
       <artifactId>opsin-inchi</artifactId>
       <version>2.4.0</version>
-      <type>jar</type>
     </dependency>
     <dependency>
         <groupId>org.glassfish.jaxb</groupId>
@@ -245,10 +217,4 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>nexus.ideaconsult.net</id>
-	  <url>https://nexus.ideaconsult.net/content/repositories/thirdparty/</url>
-    </repository>
-  </repositories>
 </project>
