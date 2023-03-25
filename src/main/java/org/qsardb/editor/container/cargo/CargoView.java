@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.*;
 import org.qsardb.editor.container.ContainerModel;
+import org.qsardb.cargo.map.ValuesCargo;
 import org.qsardb.editor.common.Utils;
 import org.qsardb.model.FilePayload;
 import org.qsardb.model.Payload;
@@ -90,7 +91,7 @@ public class CargoView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String title = String.format("Edit %s cargo", label.getText());
-				if (label.getText().equalsIgnoreCase("Values")) {
+				if (cargoId.equals(ValuesCargo.ID)) {
 					new EditValuesView(model, cargoId).showModal(title);
 				} else {
 					new EditTextView(model, cargoId).showModal(title);
