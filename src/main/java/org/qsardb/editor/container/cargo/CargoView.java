@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.*;
 import org.qsardb.editor.container.ContainerModel;
+import org.qsardb.editor.container.ModelModel;
 import org.qsardb.cargo.map.ValuesCargo;
+import org.qsardb.cargo.pmml.PMMLCargo;
 import org.qsardb.editor.common.Utils;
 import org.qsardb.model.FilePayload;
 import org.qsardb.model.Payload;
@@ -123,8 +125,17 @@ public class CargoView {
 				JFileChooser fc = Utils.getFileChooser();
 				if (fc.showOpenDialog((Component)e.getSource()) == JFileChooser.APPROVE_OPTION) {
 					File f = fc.getSelectedFile();
-					Payload payload = new FilePayload(f);
-					model.setCargoPayload(cargoId, payload);
+
+					if (cargoId.equals(PMMLCargo.ID)) {
+						PmmlImporter importer = new PmmlImporter((ModelModel)model);
+						boolean ok = importer.autoLoad(f);
+						if (!ok) {
+							importer.showModal("Edit PMML fields");
+						}
+					} else {
+						Payload payload = new FilePayload(f);
+						model.setCargoPayload(cargoId, payload);
+					}
 					updateView();
 				}
 			}
