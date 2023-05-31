@@ -88,9 +88,9 @@ public class PmmlImporter extends EditCargoView {
 
 	public boolean autoLoad(File f) {
 		try {
-			pmml = IOUtil.unmarshal(f);
-		} catch (IOException | SAXException | JAXBException e) {
-			throw new RuntimeException(e); // XXX
+			pmml = PmmlFilter.unmarshal(f);
+		} catch (IOException e) {
+			throw new RuntimeException(e); // XXX: throw io exception?
 		}
 
 		List<org.dmg.pmml.Model> models = pmml.getModels();
