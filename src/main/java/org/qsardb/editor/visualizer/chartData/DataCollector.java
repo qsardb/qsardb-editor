@@ -28,7 +28,7 @@ public class DataCollector {
 	private ChartSeries propertyChartSeries;
 	private ChartSeries descriptorChartSeries;
 	private List<Prediction> predicts;
-	private List<Descriptor> descriptors;
+	private List<Descriptor> descriptors = new ArrayList<>();
 
 	public ChartSeries getPropertyChartSeries() {
 		return propertyChartSeries;
@@ -61,14 +61,14 @@ public class DataCollector {
 				predicts.add(p2);
 			}
 		}
+
 		Evaluator eval = null;
 		try {
 			eval = EvaluatorFactory.getInstance().getEvaluator(m);
 			eval.init();
 			descriptors = eval.getDescriptors();
 		} catch (Exception ex) {
-			Utils.showExceptionPanel(ex.getMessage(), ex);
-			Logger.getLogger(VisualizerTab.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(VisualizerTab.class.getName()).log(Level.SEVERE, "Can't find descriptors for model: "+m.getId());
 		} finally {
 			if (eval != null) {
 				try {
@@ -78,6 +78,7 @@ public class DataCollector {
 				}
 			}
 		}
+
 		ValuesCargo vcProp = m.getProperty().getCargo(ValuesCargo.class);
 		try {
 			propertyMap = vcProp.loadStringMap();
