@@ -16,7 +16,7 @@ Build QsarDB Editor by running:
 
 `mvn package`
 
-It will produce an executable qsardb-editor-1.1-SNAPSHOT.jar file in the target directory.
+It will produce an executable qsardb-editor-1.2-SNAPSHOT.jar file in the target directory.
 
 Contact
 =======
