@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.qsardb.editor.common.ManagedJPanel;
@@ -180,6 +181,12 @@ public class QdbEditor implements Runnable {
 				String msg = "Can't open "+qdbDir+" - "+e.getMessage();
 				Utils.showExceptionPanel(msg, e);
 			}
+		}
+
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception ex) {
+			// ignore
 		}
 
 		show();
